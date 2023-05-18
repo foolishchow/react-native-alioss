@@ -1,3 +1,4 @@
+import { EmitterSubscription } from 'react-native';
 declare type OSSinit = {
     maxRetryCount: number;
     timeoutIntervalForRequest: number;
@@ -16,107 +17,120 @@ declare type AppendType = {
     contentEncoding: string;
     contentDisposition: string;
 };
-declare const AliyunOSS: {
-    enableDevMode(): void;
+declare type StsToken = {
+    endpoint: string;
+    bucketName: string;
+    accessKeyId: string;
+    accessKeySecret: string;
+    securityToken: string;
+    expiration: string;
+};
+declare class AliyunOSS {
+    /**
+     * Enable dev mode
+     */
+    static enableDevMode(): void;
+    /**
+     * 初始化sts token
+     * @param endPoint
+     * @param callback
+     */
+    static initWithSTSTokenProvider(endPoint: string, provider: () => Promise<StsToken>, configuration?: OSSinit): void;
     /**
      * Initialize the OSS Client
      * Mode: PlainTextAKSK
      */
-    initWithPlainTextAccessKey(accessKey: string, secretKey: string, endPoint: string, configuration?: OSSinit): void;
+    static initWithPlainTextAccessKey(accessKey: string, secretKey: string, endPoint: string, configuration?: OSSinit): void;
     /**
      * Initialize the OSS Client
      * Mode: ImplementedSigner
      */
-    initWithImplementedSigner(signature: string, accessKey: string, endPoint: string, configuration?: OSSinit): void;
+    static initWithImplementedSigner(signature: string, accessKey: string, endPoint: string, configuration?: OSSinit): void;
     /**
      * Initialize the OSS Client
      * Mode: SecurityToken (STS)
      */
-    initWithSecurityToken(securityToken: string, accessKey: string, secretKey: string, endPoint: string, configuration?: OSSinit): void;
+    static initWithSecurityToken(securityToken: string, accessKey: string, secretKey: string, endPoint: string, configuration?: OSSinit): void;
     /**
      * Initialize the OSS Client
      * Server STS
      */
-    initWithServerSTS(server: string, endPoint: string, configuration?: OSSinit): void;
+    static initWithServerSTS(server: string, endPoint: string, configuration?: OSSinit): void;
     /**
      * Asynchronously uploading
      */
-    asyncUpload(bucketName: string, objectKey: string, filepath: string, options?: {}): Promise<any>;
+    static asyncUpload(bucketName: string, objectKey: string, filepath: string, options?: {}): Promise<any>;
     /**
      * Asynchronously
      */
-    asyncResumableUpload(bucketName: string, objectKey: string, filepath?: string, options?: {}): Promise<any>;
+    static asyncResumableUpload(bucketName: string, objectKey: string, filepath?: string, options?: {}): Promise<any>;
     /**
      * Asynchronously asyncAppendObject
      */
-    asyncAppendObject(bucketName: string, objectKey: string, filepath: string, options?: AppendType): Promise<any>;
+    static asyncAppendObject(bucketName: string, objectKey: string, filepath: string, options?: AppendType): Promise<any>;
     /**
      * Asynchronously
      */
-    initMultipartUpload(bucketName: string, objectKey: string): Promise<any>;
+    static initMultipartUpload(bucketName: string, objectKey: string): Promise<any>;
     /**
      * Asynchronously multipartUpload
      */
-    multipartUpload(bucketName: string, objectKey: string, uploadId: string, filepath?: string, options?: {
+    static multipartUpload(bucketName: string, objectKey: string, uploadId: string, filepath?: string, options?: {
         partSize: number;
     }): Promise<any>;
     /**
      * Asynchronously listParts
      */
-    listParts(bucketName: string, objectKey: string, uploadId: string): Promise<any>;
+    static listParts(bucketName: string, objectKey: string, uploadId: string): Promise<any>;
     /**
      * Asynchronously abortMultipartUpload
      */
-    abortMultipartUpload(bucketName: string, objectKey: string, uploadId: string): Promise<any>;
+    static abortMultipartUpload(bucketName: string, objectKey: string, uploadId: string): Promise<any>;
     /**
      * Asynchronously downloading
      */
-    asyncDownload(bucketName: string, objectKey: string, filepath?: string, options?: {
+    static asyncDownload(bucketName: string, objectKey: string, filepath?: string, options?: {
         'x-oss-process': string;
     }): Promise<any>;
-    asyncListBuckets(): Promise<any>;
+    static asyncListBuckets(): Promise<any>;
     /**
      * Asynchronously getHeadObject
      */
-    asyncHeadObject(bucketName: string, objectKey: string): Promise<any>;
+    static asyncHeadObject(bucketName: string, objectKey: string): Promise<any>;
     /**
      * Asynchronously getAsyncObjects
      */
-    asyncListObjects(bucketName: string, options?: OssListOptions | undefined): Promise<any>;
+    static asyncListObjects(bucketName: string, options?: OssListOptions): Promise<any>;
     /**
      * Asynchronously asyncCopyObject
      */
-    asyncCopyObject(srcBucketName: string, srcObjectKey: string, desBucketName: string, destObjectKey: string, options: any): Promise<any>;
+    static asyncCopyObject(srcBucketName: string, srcObjectKey: string, desBucketName: string, destObjectKey: string, options: any): Promise<any>;
     /**
      * Asynchronously doesObjectExist
      */
-    doesObjectExist(bucketName: string, objectKey: string): Promise<any>;
+    static doesObjectExist(bucketName: string, objectKey: string): Promise<any>;
     /**
      * Asynchronously asyncDeleteObject
      */
-    asyncDeleteObject(bucketName: string, objectKey: string): Promise<any>;
+    static asyncDeleteObject(bucketName: string, objectKey: string): Promise<any>;
     /**
      * Asynchronously createBucket
      */
-    asyncCreateBucket(bucketName: string, acl: string | undefined, region: string): Promise<any>;
+    static asyncCreateBucket(bucketName: string, acl: string | undefined, region: string): Promise<any>;
     /**
      * Asynchronously getBucketACL
      */
-    asyncGetBucketACL(bucketName: string): Promise<any>;
+    static asyncGetBucketACL(bucketName: string): Promise<any>;
     /**
      * Asynchronously deleteBucket
      */
-    asyncDeleteBucket(bucketName: string): Promise<any>;
+    static asyncDeleteBucket(bucketName: string): Promise<any>;
     /**
      * event listener for native upload/download event
      * @param event one of 'uploadProgress' or 'downloadProgress'
      * @param callback a callback function accepts one params: event
      */
-    addEventListener(event: any, callback: any): void;
-    /**
-     * remove event listener for native upload/download event
-     * @param event one of 'uploadProgress' or 'downloadProgress'
-     */
-    removeEventListener(event: any): void;
-};
+    static addEventListener(event: 'uploadProgress', callback: () => void): EmitterSubscription;
+    static addEventListener(event: 'downloadProgress', callback: () => void): EmitterSubscription;
+}
 export { AliyunOSS };

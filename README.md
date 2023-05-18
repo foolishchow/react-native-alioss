@@ -45,27 +45,27 @@ do nothing (The Gradle will automatically import rn-alioss )
 This section describes the APIs that are currently implemented and partially supported by the React Native SDK. These APIs mainly cover log management, bucket management, object management, authorization, file upload, and download. Follow-up to improve the relevant API and BUG repair. API list is as follows
 
 
-API | Android | iOS
-----| ---- | ---- |
-enableDevMode|Y|Y|
-initWithPlainTextAccessKey  |Y|Y
-initWithSecurityToken   |Y|Y
-initWithServerSTS   |Y|Y
-asyncUpload   |Y| Y
-initMultipartUpload |Y|Y
-multipartUpload  | Y | Y
-listParts |Y|Y
-abortMultipartUpload |Y|Y
-asyncDownload  |Y|Y
-asyncCreateBucket  |Y|Y
-asyncGetBucketACL  |Y|Y
-asyncListBuckets  |Y|Y
-asyncDeleteBucket  |Y|Y
-asyncHeadObject  |Y|Y
-asyncListObjects |Y|Y
-doesObjectExist |Y|Y
-doesObjectExist |Y|Y
-asyncDeleteObject  |Y|Y
+| API                        | Android | iOS |
+| -------------------------- | ------- | --- |
+| enableDevMode              | Y       | Y   |
+| initWithPlainTextAccessKey | Y       | Y   |
+| initWithSecurityToken      | Y       | Y   |
+| initWithServerSTS          | Y       | Y   |
+| asyncUpload                | Y       | Y   |
+| initMultipartUpload        | Y       | Y   |
+| multipartUpload            | Y       | Y   |
+| listParts                  | Y       | Y   |
+| abortMultipartUpload       | Y       | Y   |
+| asyncDownload              | Y       | Y   |
+| asyncCreateBucket          | Y       | Y   |
+| asyncGetBucketACL          | Y       | Y   |
+| asyncListBuckets           | Y       | Y   |
+| asyncDeleteBucket          | Y       | Y   |
+| asyncHeadObject            | Y       | Y   |
+| asyncListObjects           | Y       | Y   |
+| doesObjectExist            | Y       | Y   |
+| doesObjectExist            | Y       | Y   |
+| asyncDeleteObject          | Y       | Y   |
 ## Usage
 
 ```typescript 
@@ -76,6 +76,17 @@ import { AliyunOSS } from "rn-alioss";
 
 ### Main type 
 
+#### StsToken
+```typescript
+type StsToken = {
+  endpoint: string;
+  bucketName: string;
+  accessKeyId: string;
+  accessKeySecret: string;
+  securityToken: string;
+  expiration: string;
+};
+```
 
 #### OSSinit
 ```typescript
@@ -112,6 +123,23 @@ declare type AppendType = {
 ```typescript 
   AliyunOSS.enableDevMode();
 ```
+---
+### initWithSTSTokenProvider
+
+init auth client with STSTokenProvider。
+
+```typescript 
+
+const endPoint = "https://xxx"
+const configuration = {
+    maxRetryCount: 3,
+    timeoutIntervalForRequest: 30,
+    timeoutIntervalForResource: 24 * 60 * 60
+ };
+AliyunOSS.initWithSTSTokenProvider(endPoint: string, provider: ()=>Promise<StsToken>,configuration?: OSSinit): void;
+```
+- [StsToken](StsToken)
+---
 
 ---
 ### initWithPlainTextAccessKey

@@ -8,8 +8,6 @@ import {
 
 const { AliOss } = NativeModules;
 
-let subscription: EmitterSubscription;
-
 type OSSinit = {
   maxRetryCount: number;
   timeoutIntervalForRequest: number;
@@ -55,17 +53,49 @@ const appendOptions: AppendType = {
   contentDisposition: '',
 };
 
-const AliyunOSS = {
-  //Enable dev mode
-  enableDevMode() {
+type StsToken = {
+  endpoint: string;
+  bucketName: string;
+  accessKeyId: string;
+  accessKeySecret: string;
+  securityToken: string;
+  expiration: string;
+};
+class AliyunOSS {
+  /**
+   * Enable dev mode
+   */
+  static enableDevMode() {
     AliOss.enableDevMode();
-  },
+  }
+
+  /**
+   * 初始化sts token
+   * @param endPoint
+   * @param callback
+   */
+  static initWithSTSTokenProvider(
+    endPoint: string,
+    provider: () => Promise<StsToken>,
+    configuration = conf
+  ) {
+    AliOss.initWithSTS(endPoint, configuration);
+    AliyunOSS.addEventListener(
+      // @ts-ignore
+      'onSeverTokenRequest',
+      (param: { request_id: string }) => {
+        provider().then((res) => {
+          AliOss.setSTSToken(param.request_id, res);
+        });
+      }
+    );
+  }
 
   /**
    * Initialize the OSS Client
    * Mode: PlainTextAKSK
    */
-  initWithPlainTextAccessKey(
+  static initWithPlainTextAccessKey(
     accessKey: string,
     secretKey: string,
     endPoint: string,
@@ -77,13 +107,13 @@ const AliyunOSS = {
       endPoint,
       configuration
     );
-  },
+  }
 
   /**
    * Initialize the OSS Client
    * Mode: ImplementedSigner
    */
-  initWithImplementedSigner(
+  static initWithImplementedSigner(
     signature: string,
     accessKey: string,
     endPoint: string,
@@ -95,13 +125,13 @@ const AliyunOSS = {
       endPoint,
       configuration
     );
-  },
+  }
 
   /**
    * Initialize the OSS Client
    * Mode: SecurityToken (STS)
    */
-  initWithSecurityToken(
+  static initWithSecurityToken(
     securityToken: string,
     accessKey: string,
     secretKey: string,
@@ -115,32 +145,36 @@ const AliyunOSS = {
       endPoint,
       configuration
     );
-  },
+  }
 
   /**
    * Initialize the OSS Client
    * Server STS
    */
-  initWithServerSTS(server: string, endPoint: string, configuration = conf) {
+  static initWithServerSTS(
+    server: string,
+    endPoint: string,
+    configuration = conf
+  ) {
     AliOss.initWithServerSTS(server, endPoint, configuration);
-  },
+  }
 
   /**
    * Asynchronously uploading
    */
-  asyncUpload(
+  static asyncUpload(
     bucketName: string,
     objectKey: string,
     filepath: string,
     options = {}
   ): Promise<any> {
     return AliOss.asyncUpload(bucketName, objectKey, filepath, options);
-  },
+  }
 
   /**
    * Asynchronously
    */
-  asyncResumableUpload(
+  static asyncResumableUpload(
     bucketName: string,
     objectKey: string,
     filepath = '',
@@ -152,31 +186,34 @@ const AliyunOSS = {
       filepath,
       options
     );
-  },
+  }
 
   /**
    * Asynchronously asyncAppendObject
    */
-  asyncAppendObject(
+  static asyncAppendObject(
     bucketName: string,
     objectKey: string,
     filepath: string,
     options = appendOptions
   ): Promise<any> {
     return AliOss.asyncAppendObject(bucketName, objectKey, filepath, options);
-  },
+  }
 
   /**
    * Asynchronously
    */
-  initMultipartUpload(bucketName: string, objectKey: string): Promise<any> {
+  static initMultipartUpload(
+    bucketName: string,
+    objectKey: string
+  ): Promise<any> {
     return AliOss.initMultipartUpload(bucketName, objectKey);
-  },
+  }
 
   /**
    * Asynchronously multipartUpload
    */
-  multipartUpload(
+  static multipartUpload(
     bucketName: string,
     objectKey: string,
     uploadId: string,
@@ -190,70 +227,73 @@ const AliyunOSS = {
       filepath,
       options
     );
-  },
+  }
 
   /**
    * Asynchronously listParts
    */
-  listParts(
+  static listParts(
     bucketName: string,
     objectKey: string,
     uploadId: string
   ): Promise<any> {
     return AliOss.listParts(bucketName, objectKey, uploadId);
-  },
+  }
+
   /**
    * Asynchronously abortMultipartUpload
    */
-  abortMultipartUpload(
+  static abortMultipartUpload(
     bucketName: string,
     objectKey: string,
     uploadId: string
   ): Promise<any> {
     return AliOss.abortMultipartUpload(bucketName, objectKey, uploadId);
-  },
+  }
 
   /**
    * Asynchronously downloading
    */
-  asyncDownload(
+  static asyncDownload(
     bucketName: string,
     objectKey: string,
     filepath = '',
     options = imageXOssProcess
   ): Promise<any> {
     return AliOss.asyncDownload(bucketName, objectKey, filepath, options);
-  },
+  }
 
   /*
     asyncListBuckets
     */
 
-  asyncListBuckets(): Promise<any> {
+  static asyncListBuckets(): Promise<any> {
     return AliOss.asyncListBuckets();
-  },
+  }
 
   /**
    * Asynchronously getHeadObject
    */
 
-  asyncHeadObject(bucketName: string, objectKey: string): Promise<any> {
+  static asyncHeadObject(bucketName: string, objectKey: string): Promise<any> {
     return AliOss.asyncHeadObject(bucketName, objectKey);
-  },
+  }
 
   /**
    * Asynchronously getAsyncObjects
    */
 
-  asyncListObjects(bucketName: string, options?: OssListOptions): Promise<any> {
+  static asyncListObjects(
+    bucketName: string,
+    options?: OssListOptions
+  ): Promise<any> {
     return AliOss.asyncListObjects(bucketName, options);
-  },
+  }
 
   /**
    * Asynchronously asyncCopyObject
    */
-
-  asyncCopyObject(
+  static asyncCopyObject(
     srcBucketName: string,
     srcObjectKey: string,
     desBucketName: string,
@@ -267,59 +307,73 @@ const AliyunOSS = {
       destObjectKey,
       options
     );
-  },
+  }
 
   /**
    * Asynchronously doesObjectExist
    */
 
-  doesObjectExist(bucketName: string, objectKey: string): Promise<any> {
+  static doesObjectExist(bucketName: string, objectKey: string): Promise<any> {
     return AliOss.doesObjectExist(bucketName, objectKey);
-  },
+  }
 
   /**
    * Asynchronously asyncDeleteObject
    */
 
-  asyncDeleteObject(bucketName: string, objectKey: string): Promise<any> {
+  static asyncDeleteObject(
+    bucketName: string,
+    objectKey: string
+  ): Promise<any> {
     return AliOss.asyncDeleteObject(bucketName, objectKey);
-  },
+  }
 
   /**
    * Asynchronously createBucket
    */
-  asyncCreateBucket(
+  static asyncCreateBucket(
     bucketName: string,
     acl = 'private',
     region: string
   ): Promise<any> {
     return AliOss.asyncCreateBucket(bucketName, acl, region);
-  },
+  }
 
   /**
    * Asynchronously getBucketACL
    */
-  asyncGetBucketACL(bucketName: string): Promise<any> {
+  static asyncGetBucketACL(bucketName: string): Promise<any> {
     return AliOss.asyncGetBucketACL(bucketName);
-  },
+  }
 
   /**
    * Asynchronously deleteBucket
    */
-  asyncDeleteBucket(bucketName: string): Promise<any> {
+  static asyncDeleteBucket(bucketName: string): Promise<any> {
     return AliOss.asyncDeleteBucket(bucketName);
-  },
+  }
 
   /**
    * event listener for native upload/download event
    * @param event one of 'uploadProgress' or 'downloadProgress'
    * @param callback a callback function accepts one params: event
    */
-  addEventListener(event: any, callback: any) {
+  static addEventListener(
+    event: 'uploadProgress',
+    callback: () => void
+  ): EmitterSubscription;
+  // eslint-disable-next-line no-dupe-class-members
+  static addEventListener(
+    event: 'downloadProgress',
+    callback: () => void
+  ): EmitterSubscription;
+  // eslint-disable-next-line no-dupe-class-members
+  static addEventListener(event: string, callback: any): EmitterSubscription {
     const RNAliyunEmitter =
       Platform.OS === 'ios'
         ? new NativeEventEmitter(AliOss)
         : DeviceEventEmitter;
+    let subscription: EmitterSubscription;
     switch (event) {
       case 'uploadProgress':
         subscription = RNAliyunEmitter.addListener('uploadProgress', (e) =>
@@ -331,26 +385,35 @@ const AliyunOSS = {
           callback(e)
         );
         break;
-      default:
+      case 'onSeverTokenRequest':
+        subscription = RNAliyunEmitter.addListener('onSeverTokenRequest', (e) =>
+          callback(e)
+        );
         break;
     }
-  },
+    // @ts-ignore
+    return subscription;
+  }
 
   /**
    * remove event listener for native upload/download event
    * @param event one of 'uploadProgress' or 'downloadProgress'
    */
-  removeEventListener(event: any) {
-    switch (event) {
-      case 'uploadProgress':
-        subscription.remove();
-        break;
-      case 'downloadProgress':
-        subscription.remove();
-        break;
-      default:
-        break;
-    }
-  },
-};
+  // static removeEventListener(event: any) {
+  //   switch (event) {
+  //     case 'uploadProgress':
+  //       subscription.remove();
+  //       break;
+  //     case 'downloadProgress':
+  //       subscription.remove();
+  //       break;
+  //     case 'downloadProgress':
+  //       subscription.remove();
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // }
+}
+
 export { AliyunOSS };

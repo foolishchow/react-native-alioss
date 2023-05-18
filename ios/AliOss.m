@@ -42,7 +42,7 @@
  */
 -(NSArray<NSString *> *)supportedEvents
 {
-    return @[@"uploadProgress", @"downloadProgress"];
+    return @[@"uploadProgress", @"downloadProgress", @"onSeverTokenRequest"];
 }
 
 

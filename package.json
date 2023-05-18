@@ -1,6 +1,6 @@
 {
-  "name": "rn-alioss",
-  "version": "0.2.5",
+  "name": "@f/rn-alioss",
+  "version": "0.0.1",
   "description": "aliyun oss for react native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -36,13 +36,12 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/hufans/react-native-alioss.git",
-  "author": "JsonWrl <fanhu92@gmail.com> (https://github.com/hufans/react-native-alioss.git)",
+  "repository": "https://github.com/foolishchow/react-native-alioss.git",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/hufans/react-native-alioss.git/issues"
+    "url": "https://github.com/foolishchow/react-native-alioss.git/issues"
   },
-  "homepage": "https://github.com/hufans/react-native-alioss.git#readme",
+  "homepage": "https://github.com/foolishchow/react-native-alioss.git#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
