@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.alibaba.sdk.android.oss.ClientConfiguration;
+import com.alibaba.sdk.android.oss.ClientException;
 import com.alibaba.sdk.android.oss.OSS;
 import com.alibaba.sdk.android.oss.OSSClient;
 import com.alibaba.sdk.android.oss.common.OSSConstants;
@@ -72,6 +73,23 @@ public class AliOssAuthManager {
         Log.d("AliyunOSS", "OSS initWithSigner ok!");
         mAuthListener.onAuthFinished(mOSS);
     }
+
+  public void initWithSTS(String endPoint,
+                          ReadableMap configuration) {
+    OSSCredentialProvider credentialProvider = new OSSFederationCredentialProvider() {
+      @Override
+      public OSSFederationToken getFederationToken() throws ClientException {
+        return null;
+      }
+    };
+
+    // init conf
+    ClientConfiguration conf = ConfigUtils.initAuthConfig(configuration);
+
+    mOSS = new OSSClient(mContext, endPoint, credentialProvider, conf);
+    Log.d("AliyunOSS", "OSS initWithSigner ok!");
+    mAuthListener.onAuthFinished(mOSS);
+  }
 
     /**
      * initWithPlainTextAccessKey

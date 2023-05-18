@@ -1,15 +1,15 @@
-buildscript {
-    if (project == rootProject) {
-        repositories {
-            google()
-            jcenter()
-        }
-
-        dependencies {
-            classpath 'com.android.tools.build:gradle:3.5.3'
-        }
-    }
-}
+//buildscript {
+//    if (project == rootProject) {
+//        repositories {
+//            google()
+//            jcenter()
+//        }
+//
+//        dependencies {
+//            classpath 'com.android.tools.build:gradle:3.5.3'
+//        }
+//    }
+//}
 
 apply plugin: 'com.android.library'
 
@@ -42,18 +42,18 @@ android {
     }
 }
 
-repositories {
-    mavenLocal()
-    maven {
-        // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
-        url("$rootDir/../node_modules/react-native/android")
-    }
-    google()
-    jcenter()
-}
+//repositories {
+//    mavenLocal()
+//    maven {
+//        // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+//        url("$rootDir/../node_modules/react-native/android")
+//    }
+//    google()
+//    jcenter()
+//}
 
 dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
-    compile 'com.aliyun.dpa:oss-android-sdk:+'
+    api 'com.aliyun.dpa:oss-android-sdk:+'
 }

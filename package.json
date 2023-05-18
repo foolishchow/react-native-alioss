@@ -1,5 +1,5 @@
 {
-  "name": "@f/rn-alioss",
+  "name": "@foolishchow/rn-alioss",
   "version": "0.0.1",
   "description": "aliyun oss for react native",
   "main": "lib/commonjs/index",
