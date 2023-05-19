@@ -69,9 +69,16 @@ public class AliOssModule extends ReactContextBaseJavaModule {
         mAuth.initWithSigner(signature, accessKey, endPoint, configuration);
     }
 
-    public void initWithSTS(String endPoint, ReadableMap configuration){
-      mAuth.initWithSTS(endPoint, configuration);
+    @ReactMethod
+    public void initWithSTS(final String endPoint, final ReadableMap configuration){
+      mAuth.initWithSTS(getReactApplicationContext(),endPoint, configuration);
     }
+
+    @ReactMethod
+    public void setSTSToken(final String requestId,final ReadableMap token){
+      mAuth.setSTSToken(requestId, token);
+    }
+
     /**
      * initWithPlainTextAccessKey ReactMethod
      * @param accessKeyId

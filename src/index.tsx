@@ -23,6 +23,8 @@ type OssListOptions = {
 
 //default configuration for OSS Client
 const conf: OSSinit = {
+  // @ts-ignore
+  verifyCRC64:false,
   maxRetryCount: 3,
   timeoutIntervalForRequest: 30,
   timeoutIntervalForResource: 24 * 60 * 60,

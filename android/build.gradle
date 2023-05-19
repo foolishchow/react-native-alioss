@@ -18,11 +18,11 @@ def safeExtGet(prop, fallback) {
 }
 
 android {
-    compileSdkVersion safeExtGet('Alioss_compileSdkVersion', 29)
-    buildToolsVersion safeExtGet('Alioss_buildToolsVersion', '29.0.2')
+    compileSdkVersion safeExtGet('Alioss_compileSdkVersion', 32)
+//    buildToolsVersion safeExtGet('Alioss_buildToolsVersion', '32.0.0')
     defaultConfig {
-        minSdkVersion safeExtGet('Alioss_minSdkVersion', 16)
-        targetSdkVersion safeExtGet('Alioss_targetSdkVersion', 29)
+        minSdkVersion safeExtGet('Alioss_minSdkVersion', 21)
+        targetSdkVersion safeExtGet('Alioss_targetSdkVersion', 32)
         versionCode 1
         versionName "1.0"
 
@@ -33,9 +33,9 @@ android {
             minifyEnabled false
         }
     }
-    lintOptions {
-        disable 'GradleCompatible'
-    }
+//    lintOptions {
+//        disable 'GradleCompatible'
+//    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -54,6 +54,6 @@ android {
 
 dependencies {
     //noinspection GradleDynamicVersion
-    implementation "com.facebook.react:react-native:+"  // From node_modules
+    api "com.facebook.react:react-native:+"  // From node_modules
     api 'com.aliyun.dpa:oss-android-sdk:+'
 }
