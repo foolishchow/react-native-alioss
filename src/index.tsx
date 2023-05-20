@@ -78,7 +78,7 @@ class AliyunOSS {
    */
   static initWithSTSTokenProvider(
     endPoint: string,
-    provider: () => Promise<StsToken>,
+    provider: () => Promise<StsToken|undefined>,
     configuration = conf
   ) {
     AliOss.initWithSTS(endPoint, configuration);

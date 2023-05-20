@@ -1,6 +1,6 @@
 {
   "name": "rn-alioss",
-  "version": "0.0.1",
+  "version": "0.0.26",
   "author": "author",
   "description": "aliyun oss for react native",
   "main": "lib/commonjs/index",
@@ -30,7 +30,8 @@
     "release": "dotenv release-it",
     "example": "yarn --cwd example",
     "pods": "cd example && pod-install --quiet",
-    "bootstrap": "yarn example && yarn && yarn pods"
+    "bootstrap": "yarn",
+    "bootstrap_disable": "yarn example && yarn && yarn pods"
   },
   "keywords": [
     "react-native",

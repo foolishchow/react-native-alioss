@@ -88,7 +88,9 @@ public class AliOssAuthManager {
   private final ConcurrentHashMap<String, ReadableMap> mStsAuthResult = new ConcurrentHashMap<>();
 
   public void setSTSToken(final String requestId,final ReadableMap token){
-    mStsAuthResult.put(requestId,token);
+    if(token != null){
+      mStsAuthResult.put(requestId,token);
+    }
     Semaphore semaphore = mStsAuthSemaphores.get(requestId);
     if(semaphore != null){
       semaphore.release();

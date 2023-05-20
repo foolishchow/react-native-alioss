@@ -35,7 +35,7 @@ declare class AliyunOSS {
      * @param endPoint
      * @param callback
      */
-    static initWithSTSTokenProvider(endPoint: string, provider: () => Promise<StsToken>, configuration?: OSSinit): void;
+    static initWithSTSTokenProvider(endPoint: string, provider: () => Promise<StsToken | undefined>, configuration?: OSSinit): void;
     /**
      * Initialize the OSS Client
      * Mode: PlainTextAKSK
