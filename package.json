@@ -1,6 +1,6 @@
 {
   "name": "rn-alioss",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "author": "author",
   "description": "aliyun oss for react native",
   "main": "lib/commonjs/index",
