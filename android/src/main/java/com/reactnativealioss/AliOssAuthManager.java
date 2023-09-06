@@ -124,12 +124,23 @@ public class AliOssAuthManager {
         if(result == null){
           return null;
         }
-        return new OSSFederationToken(
-          result.getString("accessKeyId"),
-          result.getString("accessKeySecret"),
-          result.getString("securityToken"),
-          result.getString("expiration")
-        );
+        if(result.hasKey("expiration")){
+          return new OSSFederationToken(
+            result.getString("accessKeyId"),
+            result.getString("accessKeySecret"),
+            result.getString("securityToken"),
+            Double.valueOf(result.getDouble("expiration")).longValue()
+          );
+        }
+        if(result.hasKey("expirationTimeInGMTFormat")){
+          return new OSSFederationToken(
+            result.getString("accessKeyId"),
+            result.getString("accessKeySecret"),
+            result.getString("securityToken"),
+            result.getString("expirationTimeInGMTFormat")
+          );
+        }
+        return null;
       }
     };
 
