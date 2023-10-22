@@ -24,7 +24,7 @@ type OssListOptions = {
 //default configuration for OSS Client
 const conf: OSSinit = {
   // @ts-ignore
-  verifyCRC64:false,
+  verifyCRC64: false,
   maxRetryCount: 3,
   timeoutIntervalForRequest: 30,
   timeoutIntervalForResource: 24 * 60 * 60,
@@ -61,7 +61,8 @@ type StsToken = {
   accessKeyId: string;
   accessKeySecret: string;
   securityToken: string;
-  expiration: string;
+  expiration?: number;
+  expirationTimeInGMTFormat?: string;
 };
 class AliyunOSS {
   /**
@@ -78,7 +79,7 @@ class AliyunOSS {
    */
   static initWithSTSTokenProvider(
     endPoint: string,
-    provider: () => Promise<StsToken|undefined>,
+    provider: () => Promise<StsToken | undefined>,
     configuration = conf
   ) {
     AliOss.initWithSTS(endPoint, configuration);
