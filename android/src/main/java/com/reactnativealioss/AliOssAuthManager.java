@@ -129,7 +129,7 @@ public class AliOssAuthManager {
             result.getString("accessKeyId"),
             result.getString("accessKeySecret"),
             result.getString("securityToken"),
-            Double.valueOf(result.getDouble("expiration")).longValue()
+            Double.valueOf(result.getDouble("expiration")).longValue() / 1000
           );
         }
         if(result.hasKey("expirationTimeInGMTFormat")){
