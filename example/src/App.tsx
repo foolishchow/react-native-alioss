@@ -3,7 +3,7 @@ import { StyleSheet, View, Text } from 'react-native';
 import { AliyunOSS } from '../../src';
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
+  const [result, _setResult] = React.useState<number | undefined>();
 
   React.useEffect(() => {
     AliyunOSS.initWithSTSTokenProvider(
@@ -16,7 +16,7 @@ export default function App() {
           accessKeySecret: 'accessKeyId',
           securityToken: 'securityToken',
           rootPath: 'rootPath',
-          expiration: '2022-05-18T15:35:47Z',
+          expirationTimeInGMTFormat: '2022-05-18T15:35:47Z',
         };
       }
     );

@@ -56,5 +56,5 @@ dependencies {
     //noinspection GradleDynamicVersion
     api "com.facebook.react:react-native:+"  // From node_modules
     // api 'com.aliyun.dpa:oss-android-sdk:+'
-    api files('libs/alioss-0.0.1-beta-1.aar')
+    api 'com.manqian.android:alioss:+'
 }

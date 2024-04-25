@@ -96,6 +96,9 @@ public class AliOssUploadManager {
         PutObjectRequest put = new PutObjectRequest(bucketName, ossFile, sourceFile);
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentType("application/octet-stream");
+        if(options != null && options.hasKey("Content-Type")){
+            metadata.setContentType(options.getString("Content-Type"));
+        }
         put.setMetadata(metadata);
 
         // set callback

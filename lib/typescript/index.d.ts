@@ -23,7 +23,8 @@ declare type StsToken = {
     accessKeyId: string;
     accessKeySecret: string;
     securityToken: string;
-    expiration: string;
+    expiration?: number;
+    expirationTimeInGMTFormat?: string;
 };
 declare class AliyunOSS {
     /**

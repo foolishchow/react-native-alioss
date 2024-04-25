@@ -1,5 +1,5 @@
 {
-  "name": "rn-alioss",
+  "name": "@foolishchow/react-native-alioss",
   "version": "0.0.28",
   "author": "author",
   "description": "aliyun oss for react native",
@@ -17,6 +17,7 @@
     "react-native-alioss.podspec",
     "!lib/typescript/example",
     "!android/build",
+    "!android/gradle",
     "!ios/build",
     "!**/__tests__",
     "!**/__fixtures__",
@@ -26,7 +27,7 @@
     "test": "jest",
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "prepare": "bob build",
+    "build": "bob build",
     "release": "dotenv release-it",
     "example": "yarn --cwd example",
     "pods": "cd example && pod-install --quiet",
