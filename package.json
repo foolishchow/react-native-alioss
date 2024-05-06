@@ -1,6 +1,6 @@
 {
   "name": "@foolishchow/react-native-alioss",
-  "version": "0.0.28",
+  "version": "0.0.29",
   "author": "author",
   "description": "aliyun oss for react native",
   "main": "lib/commonjs/index",
